@@ -10,14 +10,16 @@ This document outlines our Test-Driven Development (TDD) strategy to ensure that
 
 ### 1. Unit Tests
 - **Scope:**  
-  - Individual modules: task manager, TDD enforcement logic, AI prompt optimization, and review feedback.
-  - Validate all core functionality modules and UI component behaviors.
+  - Individual modules: task manager, TDD enforcement logic, and review feedback.
+  - (Optional) Validate core functionality modules and UI component behaviors.
 - **Tools:**  
   - Jest / Mocha (for TypeScript testing).
 - **Key Scenarios:**  
   - Correct creation, update, and deletion of tasks.
   - TDD check without a corresponding test (triggering warnings or overrides).
   - AI prompt scoring based on provided text.
+
+*Note: Unit tests are optional and may be added based on developer discretion. The primary focus is on integration tests.*
 
 ### 2. Integration Tests
 - **Scope:**  
@@ -51,4 +53,4 @@ This document outlines our Test-Driven Development (TDD) strategy to ensure that
 - **Notifications:** Automated CI/CD pipelines report test results and trigger rollback if thresholds are not met.
 
 ## Integration Test & Feedback Emphasis
-Our approach prioritizes integration tests that validate end-to-end system behavior while providing actionable, closed-loop feedback to guide iterative improvements. 
+Our approach prioritizes integration tests to validate essential system behavior and provide actionable, closed-loop feedback for the autonomous coding agent. We implement only the tests necessary to achieve this goal, keeping the testing footprint as lean as possible. 

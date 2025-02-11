@@ -18,8 +18,7 @@ You are the downstream autonomous coding agent responsible for generating the co
      - `TEST_PLAN.md`  
      - `CODING_AGENT_GUIDELINES.md`  
      - `DATABASE_SCHEMA.md`  
-     - `REVIEW_NOTES.md`  
-     - `EXHAUSTIVE_REVIEW.md`
+     - `AGENT_PROMPT.md`
 
 2. **Adopt a Closed-Loop Feedback Mechanism:**
    - Develop tests for each feature that provide actionable, real-time feedback, as detailed in TEST_PLAN.md.
