@@ -1,16 +1,16 @@
 # API Specification for Cursor Workflow Assistant Extension
 
-This document defines the internal API contract for modules within the extension. Although the extension operates locally within VSCode, it exposes a set of command interfaces and internal endpoints to manage tasks, enforce TDD, and handle review feedback.
+This document defines the internal API contract for the extension. The API is used during both the design stage (to capture and validate requirements) and the autonomous agent coding stage (to generate production-ready, tested code). It leverages VSCode command registration and webview messaging for module communication.
 
 ## Base Domain
-- The extension utilizes VSCode command registration and webview messaging to communicate between modules.
+- The extension operates using VSCode commands and webview messaging to ensure smooth inter-module interactions.
 
 ## Command & Messaging Endpoints
 
 ### 1. Task Management API
 
 #### GET /tasks
-- **Purpose:** Retrieve the current list of tasks.
+- **Purpose:** Retrieve the current list of development tasks.
 - **Response Example:**
   ```json
   {
@@ -29,7 +29,7 @@ This document defines the internal API contract for modules within the extension
   ```
 
 #### POST /tasks
-- **Purpose:** Create a new task.
+- **Purpose:** Create a new task to guide development.
 - **Payload:**
   ```json
   {
@@ -38,8 +38,7 @@ This document defines the internal API contract for modules within the extension
     "priority": "medium"
   }
   ```
-- **Response:**  
-  - 201 Created with the task object.
+- **Response:** 201 Created with the new task details.
 
 #### PUT /tasks/{id}
 - **Purpose:** Update an existing task.
@@ -61,40 +60,39 @@ This document defines the internal API contract for modules within the extension
 ### 2. TDD Enforcement API
 
 #### POST /tdd/check
-- **Purpose:** Trigger a TDD check for the current code context.
+- **Purpose:** Trigger a TDD check against the current code context.
 - **Payload (optional override):**
   ```json
   {
     "override": true,
-    "reason": "Brief explanation, if required."
+    "reason": "Provide a brief justification if needed."
   }
   ```
 - **Response:**  
-  - If tests are missing and not overridden, return a warning message.
-  - Otherwise, acknowledge the override.
+  Returns a warning if tests are missing unless an override is provided.
 
 ### 3. AI Prompt Optimization API
 
 #### POST /prompt/optimize
-- **Purpose:** Analyze and return a score for the AI prompt.
+- **Purpose:** Analyze the AI prompt and return an optimization score.
 - **Payload:**
   ```json
   {
     "promptText": "Your prompt text here"
   }
   ```
-- **Response:**  
+- **Response:**
   ```json
   {
     "score": "green | yellow | red",
-    "suggestions": "Optional detailed suggestions for improvement."
+    "suggestions": "Optional suggestions for improvement."
   }
   ```
 
 ### 4. Code Review API
 
 #### POST /review/trigger
-- **Purpose:** Initiate a multi-persona code review.
+- **Purpose:** Initiate a multi-character code review.
 - **Payload:**
   ```json
   {
@@ -103,10 +101,9 @@ This document defines the internal API contract for modules within the extension
   }
   ```
 - **Response:**  
-  - Collection of review feedback from different personas.
-  - In case of conflicting feedback, provide a flag for conflict resolution.
+  Returns review feedback from multiple personas and flags any conflicts for resolution.
 
 ## Error Handling
-- **400 Bad Request:** For validation errors.
-- **500 Internal Server Error:** For unhandled exceptions.
-- All error responses include a clear `error` message in the JSON payload. 
+- **400 Bad Request:** Returned for validation errors.
+- **500 Internal Server Error:** Returned for unhandled exceptions.
+- All errors include a clear `error` message in the JSON payload. 

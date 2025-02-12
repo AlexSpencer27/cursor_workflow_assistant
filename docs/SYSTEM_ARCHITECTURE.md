@@ -1,73 +1,74 @@
 # Cursor Workflow Assistant Extension - System Architecture
 
 ## Project Overview
-The **Cursor Workflow Assistant Extension** is a VS Code/Cursor extension for Cursor users. It organizes the development process into two stages:
+The **Cursor Workflow Assistant Extension** guides developers through a two-stage process:
 
- - **Stage One:** Design documents are prepared during review sessions, capturing project requirements and best practices.
+1. **Stage One: Design**
+   - **Brainstorming:** Capture high-level ideas and project requirements.
+   - **Architecture Design & Technical Deep Dive:** Detailed discussions on system architecture, API specifications, and data models.
+   - **Multi-Character Design Review (Iterative):** Multiple expert personas (System Architect, Coding Agent, AI Simulator, End User) provide iterative feedback to refine the design.
 
- - **Stage Two:** An autonomous coding agent uses these finalized documents to generate code with minimal manual effort, while the user remains involved as a reviewer.
-
-Working within Cursor's native environment, the extension provides task management and notifications to keep the development process clear and organized.
+2. **Stage Two: Agent Coding**
+   - An autonomous coding agent generates the complete codebase using the finalized design documents.
+   - Emphasizes TDD, modular design, and CI/CD integration.
 
 ## System Components
 
-1. **UI Module (Sidebar & Notifications)**
-   - **Purpose:**  
-     - Embed a collapsible sidebar within Cursor's UI for task management, review notifications, and configuration settings.
-     - Display inline, non-disruptive notifications (e.g., reminders to write tests, prompt feedback).
-   - **Technology:**  
-     - Native VSCode webviews using HTML/CSS/JavaScript (with the option to upgrade to React for advanced interactivity).
+### 1. UI Module (Sidebar & Notifications)
+- **Purpose:**  
+  - Display task lists, review notifications, and configuration options within the VSCode sidebar.
+  - Show inline notifications for events (e.g., file saves, TDD prompts).
+- **Technologies:**  
+  - VSCode webviews (HTML/CSS/JavaScript) with the option for React for enhanced interactivity.
 
-2. **Core Functionality & Event Handling Module**
-   - **Purpose:**  
-     - Manage the core functionality, including task management, TDD enforcement, and multi-persona code review.
-     - Listen to development events such as file saves, file opens, branch commits, and editor focus changes.
-   - **Key Features:**  
-     - Enforce best practices (e.g., verifying the existence of test stubs before code commits).
-     - Trigger TDD enforcement dialogs with configurable override (simple confirmation or detailed explanation).
+### 2. Core Functionality & Event Handling Module
+- **Purpose:**  
+  - Manage task creation, TDD enforcement, and multi-persona review sessions.
+  - Listen to key VSCode events (file saves, file opens, commits) and trigger appropriate responses.
+- **Features:**  
+  - Automated checks for code practices.
+  - Notification triggers for TDD enforcement and review cycles.
 
-3. **Integration Module**
-   - **Purpose:**  
-     - Hook into Cursor's existing APIs and events.
-     - Leverage Cursor's native security while using VSCode's secure storage APIs for extension data.
-   - **Events Monitored:**  
-     - Primary: File save, file open, commit/branch merge.
-     - Secondary: Editor focus change for low-priority reminders.
+### 3. Integration Module
+- **Purpose:**  
+  - Integrate with VSCode/ Cursor APIs and handle message passing.
+  - Ensure secure data storage using VSCode's secure storage APIs.
+- **Monitored Events:**  
+  - Primary: File save, file open, branch commits/merges.
+  - Secondary: Editor focus changes for non-critical notifications.
 
-4. **Local Storage Module**
-   - **Purpose:**  
-     - Persist internal data such as task lists, user configuration settings, and logs.
-   - **Technology:**  
-     - VSCode's extension storage APIs for both global and workspace states.
+### 4. Local Storage Module
+- **Purpose:**  
+  - Persist internal data such as task lists, configuration options, and review logs.
+- **Technologies:**  
+  - VSCode's global and workspace state storage APIs.
 
 ## Development Phases
 
-1. **Phase 1: Core Functionality**
-   - Implement internal task management and basic TDD enforcement.
-   - Integrate event triggers for file operations (save, open) and commit events.
-   - **Acceptance Criteria:**  
-     - Basic UI appears in the sidebar.
-     - Tasks can be created, updated, and stored.
-     - TDD prompt appears on unsaved changes lacking test stubs (with override confirmation).
+### Phase 1: Core Functionality
+- Implement task management, basic TDD enforcement, and event-driven notifications.
+- **Acceptance Criteria:**
+  - Sidebar UI is visible.
+  - Tasks can be created, updated, and stored.
+  - TDD prompts appear on unsaved changes.
 
-2. **Phase 2: Enhanced Notifications & AI Prompt Optimization**
-   - Add inline notifications and detailed tooltips for prompt feedback.
-   - Develop AI prompt scoring (color-coded: green optimal, yellow caution, red poor) and template suggestions.
-   - **Acceptance Criteria:**  
-     - Inline notifications are responsive (<200ms).
-     - Developers can access detailed prompt analysis via hover/tooltips.
+### Phase 2: Enhanced Notifications & Prompt Optimization
+- Add detailed inline notifications and tooltip feedback.
+- Integrate AI prompt optimization based on real-time feedback.
+- **Acceptance Criteria:**
+  - Notifications respond in <200ms.
+  - Developers can access detailed prompt improvement suggestions.
 
-3. **Phase 3: Multi-Persona Code Review System**
-   - Integrate a full review interface simulating feedback from multiple personas (System Architect, Downstream Coding Agent, AI Simulator, Downstream User).
-   - Implement a conflict resolution mechanism for conflicting reviews.
-   - **Acceptance Criteria:**  
-     - Multi-perspective feedback is displayed within a dedicated panel.
-     - Conflict resolution is available and user-friendly.
+### Phase 3: Multi-Persona Code Review System
+- Automate multi-character reviews with conflict resolution capabilities.
+- **Acceptance Criteria:**
+  - Multi-perspective feedback is clearly presented.
+  - Users can resolve any conflicting reviews.
 
 ## Quality, Performance & Scalability
-- **Performance:** All inline notifications and validations should respond within 200ms.
-- **Security:** Leverage Cursor's built-in APIs and VSCode secure storage for persistent data.
-- **Scalability:** Due to the modular architecture with clearly defined phases, the design supports future integrations (e.g., external issue trackers) without major rework.
+- **Performance:** Event handling and notifications must be responsive (<200ms).
+- **Security:** Adhere to VSCode secure storage practices and Cursor API standards.
+- **Scalability:** A modular design ensures future integrations (e.g., external issue trackers) are seamlessly incorporated.
 
 ## Trade-offs
 - **Initial Simplicity vs. Future Extensibility:**  

@@ -1,13 +1,13 @@
 # Internal Data Model for Cursor Workflow Assistant Extension
 
-This document defines the internal schema used for persistent storage within the extension. Data is stored using VSCode's extension storage APIs (global and workspace states).
+This document defines the internal schema for persistent storage within the extension. The schema supports both stages of the workflow—from capturing design insights to storing operational data for the autonomous agent.
 
 ## Entities
 
 ### 1. Task Entity
-- **Purpose:** Manage tasks that guide the developer through required steps (e.g., TDD checks, review reminders).
+- **Purpose:** Manage tasks that guide the development process (e.g., TDD checks, review notifications).
 - **Schema:**
-  - `id` (string, UUID): Unique task identifier.
+  - `id` (string, UUID): Unique identifier.
   - `title` (string): Brief and descriptive title.
   - `description` (string, optional): Detailed task description.
   - `status` (string): Task status (e.g., "pending", "in_progress", "completed").
